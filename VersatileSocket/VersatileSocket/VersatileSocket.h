@@ -41,6 +41,9 @@ public:
 	// send
 	bool send(int to, string message);
 
+	// sendToAll
+	bool sendToAll(string message);
+
 	// receive
 	string receive(int from);
 
@@ -58,6 +61,8 @@ public:
 
 	// listener
 	bool listen();
+
+	int getClientNumber();
 
 	SOCKET getSockfd();
 };

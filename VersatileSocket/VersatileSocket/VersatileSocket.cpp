@@ -59,6 +59,22 @@ bool TCPSocket::send(int to, string message) {
 	}
 }
 
+bool TCPSocket::sendToAll(string message)
+{
+	for (int client = 0; client < this->clt_num; client++) 
+	{
+		if (::send(this->client_fd[client], message.c_str(), (int)strlen(message.c_str()), 0) < 0)
+		{
+			// Send fail
+			return false;
+		}
+		else {
+			// Send success
+			return true;
+		}
+	}
+}
+
 string TCPSocket::receive(int from) {
 	int recv_size;
 	char buffer[20];
@@ -119,7 +135,11 @@ int TCPSocket::accept()
 	else 
 	{
 		// accept success
-		return this->client_fd[this->clt_num];
+		this->clt_num++;
+		char addr_buf[INET_ADDRSTRLEN];
+		inet_ntop(AF_INET, &this->client.sin_addr, addr_buf, INET_ADDRSTRLEN);
+		cout << "Connected IP Address: " << addr_buf << ", Port: " << ntohs(this->client.sin_port)<<endl;
+		return this->client_fd[this->clt_num-1];
 	}
 }
 
@@ -127,6 +147,12 @@ SOCKET TCPSocket::getSockfd()
 {
 	return this->sock_fd;
 }
+
+int TCPSocket::getClientNumber() 
+{
+	return this->clt_num;
+}
+
 
 UDPSocket::UDPSocket() 
 {
