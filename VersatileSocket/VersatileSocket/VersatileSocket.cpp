@@ -36,17 +36,19 @@ bool TCPSocket::connect()
 	if (::connect(sock_fd, (struct sockaddr *)&this->server, sizeof(this->server)) < 0)
 	{
 		// Connection fail
+		cout << "Connection failed" << endl;
 		return false;
 	}
 	else
 	{
 		// Connection success
+		cout << "Socket connected" << endl;
 		return true;
 	}
 }
 
-bool TCPSocket::send(string message) {
-	if (::send(this->sock_fd, message.c_str(), strlen(message.c_str()), 0) < 0)
+bool TCPSocket::send(int to, string message) {
+	if (::send(to, message.c_str(), (int)strlen(message.c_str()), 0) < 0)
 	{
 		// Send fail
 		return false;
@@ -57,18 +59,18 @@ bool TCPSocket::send(string message) {
 	}
 }
 
-string TCPSocket::receive() {
+string TCPSocket::receive(int from) {
 	int recv_size;
-	char* buffer;
-	if ((recv_size = ::recv(this->sock_fd, buffer, BUF_LEN, 0)) == SOCKET_ERROR)
+	char buffer[20];
+	if ((recv_size = ::recv(from, buffer, 20, 0)) == SOCKET_ERROR)
 	{
 		// receive fail
-		return NULL;
+		return "Receive failed";
 	}
 	else {
 		// receive success
 		buffer[recv_size] = '\0';
-		return buffer;
+		return string(buffer);
 	}
 }
 
@@ -96,22 +98,34 @@ bool TCPSocket::bind()
 
 bool TCPSocket::listen() 
 {
-	::listen(this->sock_fd, MAX_CONN);
+	if (::listen(this->sock_fd, MAX_CONN) == 0) 
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
-bool TCPSocket::accept() {
+int TCPSocket::accept() 
+{
 	c = sizeof(struct sockaddr_in);
 	this->client_fd[this->clt_num] = ::accept(this->sock_fd, (struct sockaddr *)&this->client, &c);
 	if (client_fd[this->clt_num] == INVALID_SOCKET) 
 	{
 		// accept fail
-		return false;
+		return -1;
 	}
 	else 
 	{
 		// accept success
-		return true;
+		return this->client_fd[this->clt_num];
 	}
+}
+
+SOCKET TCPSocket::getSockfd() 
+{
+	return this->sock_fd;
 }
 
 UDPSocket::UDPSocket() 

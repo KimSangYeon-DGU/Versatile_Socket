@@ -14,7 +14,9 @@
 #define MAX_CONN 10
 using namespace std;
 
-class TCPSocket {
+class TCPSocket 
+{
+private:
 	#ifdef _WIN32
 	// For windows codex
 	WSADATA wsa;
@@ -24,21 +26,23 @@ class TCPSocket {
 	#endif // DEBUG
 
 	struct sockaddr_in server, client;
-	string buffer;
+	char* buffer = new char[BUF_LEN];
 	int c;
 	// the number of clients
 	int clt_num = 0;
 	// Constructor
+
+public:
 	TCPSocket();
 
 	// Constructor
 	TCPSocket(string ip, int port);
 
 	// send
-	bool send(string message);
+	bool send(int to, string message);
 
 	// receive
-	string receive();
+	string receive(int from);
 
 	// close
 	void close();
@@ -47,13 +51,15 @@ class TCPSocket {
 	bool bind();
 
 	// accept
-	bool accept();
+	int accept();
 
 	// connector
 	bool connect();
 
 	// listener
 	bool listen();
+
+	SOCKET getSockfd();
 };
 
 class UDPSocket {
