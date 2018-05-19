@@ -1,5 +1,5 @@
 # Versatile_Socket
-Versatile Socket is socket that run on any platform. I want for many developers to use easily socket for their personal or company projects.
+Versatile Socket is socket that run on any platform. I want for many developers to easily use socket for their personal or company projects.
 # By now...(05/19/2018)
 
 Windows version
