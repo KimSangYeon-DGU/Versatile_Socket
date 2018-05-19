@@ -3,8 +3,9 @@ Versatile Socket is socket that run on any platform. I want for many developers 
 # By now...(05/19/2018)
 
 Windows version
-1. Implement send and receive functions
+1. Implement send and receive functions in TCP Socket
 
 # TODO List
 1. Broadcasting
 2. Linux version
+3. UDP Socket
