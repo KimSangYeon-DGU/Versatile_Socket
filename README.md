@@ -1,5 +1,5 @@
 # Versatile_Socket
-# By now...
+# By now...(05/19/2018)
 
 Windows version
 1. Implement send and receive functions
