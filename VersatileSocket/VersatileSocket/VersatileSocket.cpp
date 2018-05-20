@@ -22,6 +22,8 @@ TCPSocket::TCPSocket()
 		cout << "Socket was created" << endl;
 	}
 	#endif // !_WIN
+
+	memset(client_fd, 0, sizeof(client_fd));
 }
 
 TCPSocket::TCPSocket(string ip, int port) : TCPSocket()
@@ -71,17 +73,15 @@ bool TCPSocket::sendToAll(int from, string message)
 			return false;
 		}
 	}
-	message.clear();
 	return true;
 }
 
 string TCPSocket::receive(int from) {
 	int recv_size;
-	char buffer[20];
-	if ((recv_size = ::recv(from, buffer, 20, 0)) == SOCKET_ERROR)
+	if ((recv_size = ::recv(from, this->buffer, BUF_LEN, 0)) == SOCKET_ERROR)
 	{
 		// receive fail
-		return "Receive failed";
+		return "FAIL";
 	}
 	else {
 		// receive success
@@ -153,7 +153,24 @@ int TCPSocket::getClientNumber()
 	return this->clt_num;
 }
 
+bool TCPSocket::removeClient(int client){
+	for (int i = 0; i < this->clt_num; i++) {
+		if (this->client_fd[i] == client) {
+			for (int j = i; j < this->clt_num - 1; j++) {
+				this->client_fd[j] = this->client_fd[j + 1];
+			}
+			this->clt_num--;
+			return true;
+		}
+	}
+	return false;
+}
 
+void TCPSocket::showClient() {
+	for (auto c : this->client_fd)
+		cout << c << " ";
+	cout << endl;
+}
 UDPSocket::UDPSocket() 
 {
 

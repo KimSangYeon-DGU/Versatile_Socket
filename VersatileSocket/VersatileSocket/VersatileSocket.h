@@ -65,6 +65,10 @@ public:
 	int getClientNumber();
 
 	SOCKET getSockfd();
+
+	void showClient();
+
+	bool removeClient(int client);
 };
 
 class UDPSocket {
