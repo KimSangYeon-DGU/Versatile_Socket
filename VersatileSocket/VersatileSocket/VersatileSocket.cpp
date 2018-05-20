@@ -59,20 +59,20 @@ bool TCPSocket::send(int to, string message) {
 	}
 }
 
-bool TCPSocket::sendToAll(string message)
+bool TCPSocket::sendToAll(int from, string message)
 {
 	for (int client = 0; client < this->clt_num; client++) 
 	{
+		if (this->client_fd[client] == from)
+			continue;
 		if (::send(this->client_fd[client], message.c_str(), (int)strlen(message.c_str()), 0) < 0)
 		{
 			// Send fail
 			return false;
 		}
-		else {
-			// Send success
-			return true;
-		}
 	}
+	message.clear();
+	return true;
 }
 
 string TCPSocket::receive(int from) {

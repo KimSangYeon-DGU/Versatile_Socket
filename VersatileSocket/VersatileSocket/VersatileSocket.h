@@ -42,7 +42,7 @@ public:
 	bool send(int to, string message);
 
 	// sendToAll
-	bool sendToAll(string message);
+	bool sendToAll(int from, string message);
 
 	// receive
 	string receive(int from);
