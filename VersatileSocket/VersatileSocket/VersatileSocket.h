@@ -12,7 +12,6 @@
 #endif
 #define BUF_LEN 65535
 #define MAX_CONN 10
-using namespace std;
 
 class TCPSocket 
 {
@@ -36,16 +35,16 @@ public:
 	TCPSocket();
 
 	// Constructor
-	TCPSocket(string ip, int port);
+	TCPSocket(std::string ip, int port);
 
 	// send
-	bool send(int to, string message);
+	bool send(int to, std::string message);
 
 	// sendToAll
-	bool sendToAll(int from, string message);
+	bool sendToAll(int from, std::string message);
 
 	// receive
-	string receive(int from);
+	std::string receive(int from);
 
 	// close
 	void close();
@@ -71,7 +70,8 @@ public:
 	bool removeClient(int client);
 };
 
-class UDPSocket {
+class UDPSocket 
+{
 
 	// TCP Socket Constructor
 	UDPSocket();
